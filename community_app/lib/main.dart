@@ -17,8 +17,20 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        
+        brightness: Brightness.dark,
+        colorSchemeSeed:Colors.purple 
+        ,
+        scaffoldBackgroundColor: Colors.black,
+        fontFamily: 'Anton',
+        textTheme: TextTheme(bodyText1:TextStyle(
+          fontSize: 30 , 
+          color: Colors.indigoAccent
+        ) ),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.purple[100],
+          centerTitle: true,
+
+        ),
       ),
       home: MyHomePage(),
     );
@@ -36,37 +48,39 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: PreferredSize(
-          
-          preferredSize: Size.fromHeight(90),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: AppBar(
+    return Scaffold(
+      appBar: PreferredSize(
+         
+        preferredSize: Size.fromHeight(90),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: AppBar(
+            shape:  RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(
+        bottom: Radius.circular(30),
+      ),
+    ), 
+           
+            elevation: 0,
+            centerTitle: true,
+            title: Text('Event' ,style: TextStyle(color: Colors.black , fontSize:30 , )),
             
-             
-              elevation: 0,
-              centerTitle: true,
-              title: Text('Event' ,style: TextStyle(color: Colors.black , fontSize:30 , )),
-              leading:CircleAvatar(backgroundImage: AssetImage('asset/image/pcimg1.jpg') ,
-              ),
-            backgroundColor: Colors.white,
-             ),
-          ),
+            
+          
+           ),
         ),
-        floatingActionButton: FloatingActionButton.extended(onPressed: () {
-           Navigator.push(
+      ),
+      floatingActionButton: FloatingActionButton.extended(onPressed: () {
+         Navigator.push(
     context,
     MaterialPageRoute(builder: (context) => const EventCreation()),
   );
-        },
-        icon: Icon(Icons.add),
-        label: Text("Add Event"),
-        ),
-       body: EventPage(),
-       
+      },
+      icon: Icon(Icons.add),
+      label: Text("Add Event"),
       ),
+     body: EventPage(),
+     
     );
   }
 }

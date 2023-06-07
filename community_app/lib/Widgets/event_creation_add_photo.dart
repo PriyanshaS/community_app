@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:community_app/Widgets/event_listview.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -88,7 +87,7 @@ Future uploadFile(PlatformFile pickedFile) async{
                                   ),
             ),
           ),
-        if(allFiles!=null)
+                      if(allFiles!=null)
              Padding(
                              padding: const EdgeInsets.fromLTRB(30,8,30,8),
                              child: Container(

@@ -2,10 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:community_app/Models/event_model.dart';
 import 'package:community_app/Screens/landing_event_page.dart';
 import 'package:community_app/Screens/map.dart';
-import 'package:community_app/Widgets/event_card.dart';
 import 'package:community_app/Widgets/event_creation_add_photo.dart';
 import 'package:community_app/Widgets/event_creation_date_time.dart';
-import 'package:community_app/Widgets/event_listview.dart';
 import 'package:community_app/Widgets/form_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -25,15 +23,10 @@ class _EventCreationState extends State<EventCreation> {
   TextEditingController timeController = TextEditingController();
   TextEditingController locationController = TextEditingController();
  List<TextEditingController> urls = [TextEditingController()];
- List<String> urlstring =[];
+ List<String> ?urlstring;
  
   @override
- void initState() {
-    super.initState();
-    dateController.text = ""; 
-    timeController.text = "";
-  }
-  
+ 
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
@@ -41,12 +34,16 @@ class _EventCreationState extends State<EventCreation> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: AppBar(
-            
+             shape:  RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(
+        bottom: Radius.circular(30),
+      ),
+    ), 
               elevation: 0,
               centerTitle: true,
               title: Text('New Event' ,style: TextStyle(color: Colors.black , fontSize:30 , )
               ),
-            backgroundColor: Colors.white),
+            ),
              ),
           ),
         
@@ -101,25 +98,15 @@ class _EventCreationState extends State<EventCreation> {
                 final desc = descriptionController.text;
                 final date = dateController.text;
                 final time = timeController.text;
-                final location = locationController.text;
-                print(title);
-               
-                
-  for (TextEditingController controller in urls) {
-    setState(() {
-      urlstring.add(controller.text);
-      
-    });
-    }     
-    print(urlstring);
-    
-    
-    
-    setState(() {
-                createUser(title : title , desc:desc , date:date,
-                time:time , location : location , img_url : urlstring);
-                EventPage();}
-                );},  
+                final location = locationController.text;   
+  // for (TextEditingController controller in urls) {
+  //     urlstring!.add(controller.text);
+  //   }      
+   Navigator.pop(context);
+                createEvent(title : title , desc:desc , date:date,
+                time:time , location : location , img_url : ['htttp1','http2','http3']);
+             }
+                ,  
               child: Text('Submit')),
               ),
               ],
@@ -128,6 +115,20 @@ class _EventCreationState extends State<EventCreation> {
     ) ;
 
   }
-   
-
+   Future createEvent ({List<String> ? img_url ,
+String ?desc,
+String ?title,
+String ? date,
+String? time,
+String? location
+})
+async{
+  final docUser = FirebaseFirestore.instance.collection('events').doc();
+    final event = Event(
+      date: date , time: time ,heading: title , desc: desc , 
+        location: location);
+      print('in create Eventtttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt');
+    final json = event.toJsonFunc();
+    await docUser.set(json); 
+}
 }
